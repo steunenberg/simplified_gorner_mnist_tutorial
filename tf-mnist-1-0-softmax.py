@@ -29,7 +29,9 @@ print("Tensorflow version " + tf.__version__)
 tf.set_random_seed(0)
 
 RUNS = 2001
-
+# prepare status updates, as the whole excercise may take quite some time
+displays = 40 # how many time do you want to see the status
+display_trigger = int(RUNS/displays)
 
 # neural network with 1 layer of 10 softmax neurons
 #
@@ -88,6 +90,8 @@ sess.run(init)
 df = pd.DataFrame(columns=['train_accuracy', 'test_accuracy','train_cross_entropy', 'test_cross_entropy'])
 
 for i in range(RUNS):
+    if (i % display_trigger) == 0:
+        print(" run #" + str(i) + " of " + str(RUNS) + " runs.") 
     batch_X, batch_Y = mnist.train.next_batch(100)
     train_data = {X:batch_X, Y_: batch_Y}
     
@@ -103,5 +107,15 @@ for i in range(RUNS):
     df.loc[len(df)] = [a, at, c, ct]
     
 # display results
-df.plot(subplots=True)
+df1 = df[['train_accuracy', 'test_accuracy']]
+df2 = df[['train_cross_entropy', 'test_cross_entropy']]
+df1.plot()
+df2.plot()
 plt.show()
+
+
+
+
+
+
+

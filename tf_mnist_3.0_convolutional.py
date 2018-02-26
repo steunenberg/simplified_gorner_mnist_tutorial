@@ -23,6 +23,9 @@ print("Tensorflow version " + tf.__version__)
 tf.set_random_seed(0)
 
 RUNS = 10001
+# prepare status updates, as the whole excercise may take quite some time
+displays = 40 # how many time do you want to see the status
+display_trigger = int(RUNS/displays)
 
 # Download images and labels into mnist.test (10K images+labels) and mnist.train (60K images+labels)
 mnist = mnist_data.read_data_sets("data", one_hot=True, reshape=False, validation_size=0)
@@ -108,6 +111,8 @@ min_learning_rate = 0.0001
 decay_speed = 2000.0 # 0.003-0.0001-2000=>0.9826 done in 5000 iterations
 
 for i in range(RUNS):
+    if (i % display_trigger) == 0:
+        print(" run #" + str(i) + " of " + str(RUNS) + " runs.") 
     learning_rate = min_learning_rate + (max_learning_rate - min_learning_rate) * math.exp(-i/decay_speed)
 
     batch_X, batch_Y = mnist.train.next_batch(100)
@@ -125,8 +130,13 @@ for i in range(RUNS):
     df.loc[len(df)] = [a, at, c, ct]
     
 # display results
-df.plot(subplots=True)
+# display results
+df1 = df[['train_accuracy', 'test_accuracy']]
+df2 = df[['train_cross_entropy', 'test_cross_entropy']]
+df1.plot()
+df2.plot()
 plt.show()
+
     
     
     
