@@ -28,7 +28,7 @@ from tensorflow.examples.tutorials.mnist import input_data as mnist_data
 print("Tensorflow version " + tf.__version__)
 tf.set_random_seed(0)
 
-RUNS = 2000
+RUNS = 10001
 
 # neural network with 5 layers
 #
